@@ -6,7 +6,7 @@ class DweetManager:
 	def add_dweet_to_follower(self, dweet):
 		from models import TimelineDweet
 		followers = self.get_users_follower(dweet.user)
-		print "followers -- %s"%followers
+
 		timeline =[ TimelineDweet(dweet=dweet, user = follower.follower)  for follower in followers]
 		#add dweet to poster timeline as well
 		timeline.append( TimelineDweet(dweet=dweet, user=dweet.user) )
