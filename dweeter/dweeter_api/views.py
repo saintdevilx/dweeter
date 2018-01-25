@@ -33,7 +33,7 @@ def login(request):
 @api_view(['GET'])
 @permission_classes((IsAuthenticated, ))
 def dweet_list(request, dweet_id=None):
-    from managers import TimelineManager
+    from .managers import TimelineManager
     manager = TimelineManager()
     # Dweet and reply dweet 
     dweets = manager.get_timeline_dweet(request.user, dweet_id=dweet_id)
