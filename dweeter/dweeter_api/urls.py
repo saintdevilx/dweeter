@@ -1,5 +1,5 @@
 from django.conf.urls import url, include
-from views import *
+from .views import *
 from rest_framework.authtoken import views as rest_framework_views
 
 urlpatterns = [
