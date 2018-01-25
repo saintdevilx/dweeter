@@ -1,3 +1,2 @@
 Django==1.8
-Python==2.7
 djangorestframework==3.6.3
