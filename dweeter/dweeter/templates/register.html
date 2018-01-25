@@ -1,0 +1,83 @@
+{%extends 'base.html'%}
+{%block title%}Welcome to Dweeter{%endblock%}
+{%block content%}
+	<div class=" register-container row">
+		<div class="col l6 m6 s12" style="margin:0 auto;float:none;margin-top:50px;">
+		<div class="card">
+			<div class="card-title center" style="padding:10px;">
+				<h4>Register to Dweeter</h4>
+			</div>
+			<div class="divider"></div>			
+			<div class="card-content">
+			<div class="card-form card-content">
+				<form method="post" action="{%url 'register'%}" id="register_form">
+				<br>
+				<div class="row input-field">					
+					<input id="first_name" type="text" name="first_name">
+					<label for="first_name">First Name</label>
+				</div>				
+				<div class="row input-field">					
+					<input id="last_name" type="text" name="last_name">
+					<label for="Last_name">Last Name</label>
+				</div>		
+				<div class="row input-field">					
+					<input id="email" type="email" name="email">
+					<label for="email">Email</label>
+				</div>											
+				<div class="row input-field">					
+					<input id="username_input" type="text" name="username">
+					<label for="username_input">Username</label>
+				</div>
+				<div class="row input-field">
+					<label for="password_input">Password</label>
+					<input id="password_input" type="password" name="password">
+				</div>
+
+				<div class="divider"></div>		
+				<br>
+				<div>
+					<input type="submit" value="Register" class="btn blue white-text" id="register_btn">
+				</div></form>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#register_form').on('submit',function(e){
+				e.preventDefault();
+				data={};
+				$.each($('input'),function(i,v){
+					data[v.name]=v.value;
+				})
+				$('.error-msg').remove();
+				$.ajax({
+					url:'{%url "register"%}',
+					method:'post',
+					data: data,
+					dataType:'json',
+					success:function(a,b){
+						if(a.success){
+							window.location.href='/'
+						}else{
+							Materialize.toast('Register failed', 1500);
+						}
+					},error:function(a,b){
+						if(a.status===400){							
+							response = JSON.parse(a.responseText);
+							keys = Object.keys(response);
+
+							keys.forEach(function(v,k){
+								$('input[name='+v+']').parent().append('<div class="error-msg">'+response[v][0]+'</div>')
+							})
+						}
+					},
+					complete:function(){
+
+					}
+				})
+			})
+		})
+	</script>
+{%endblock%}

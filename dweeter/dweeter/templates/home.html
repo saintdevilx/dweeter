@@ -1,0 +1,5 @@
+{%if request.user.id%}
+	{%include 'timeline.html'%}
+{%else%}
+	{%include 'login.html'%}
+{%endif%}

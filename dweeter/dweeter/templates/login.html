@@ -1,0 +1,53 @@
+{%extends 'base.html'%}
+{%block title%}Welcome to Dweeter{%endblock%}
+{%block content%}
+	<div class=" login-container row">
+		<div class="col l6 m6 s12" style="margin:0 auto;float:none;margin-top:50px;">
+		<div class="card">
+			<div class="card-title center" style="padding:10px;">
+				<h4>Login to Dweeter</h4>
+			</div>
+			<div class="divider"></div>			
+			<div class="card-content">
+			<div class="card-form">
+				<div class="error" id="login_error"></div>
+				<br>
+				<div class="row input-field">					
+					<input id="username_input" type="text"  name="username">
+					<label for="username_input">Username</label>
+				</div>
+				<div class="row input-field">
+					<label for="password_input">Password</label>
+					<input id="password_input" type="password" name="password">
+				</div>
+				
+				<div>
+					<input id="login_btn" type="submit" value="Login" class="btn blue">
+					<a href="{%url 'register'%}" class="blue btn">Create account</a>
+				</div>
+			</div>
+			</div>
+		</div>
+		</div>
+	</div>
+<script>
+  $("#login_btn").on("click", function(e) {
+    var username = $("#username_input").val();
+    var password = $("#password_input").val();
+    $('login_error').hide().html('');
+    btn = this;
+    console.log(username, password);
+
+    $(this).addClass('disabled').attr('disabled');
+    $.post("/login", {"username": username, "password": password})
+      .success(function(data) {
+        var token = data["token"];
+        document.cookie = 'token='+token+";path=/";
+        window.location.href = "/";
+      }).error(function(e){
+      	$('#login_error').show().html('Invalid username or password');
+      	$(btn).removeClass('disabled').removeAttr('disabled');
+      });
+  });
+</script>	
+{%endblock%}

@@ -1,0 +1,24 @@
+{%load static%}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<title>{%block title%}{%endblock%}</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/materialize.min.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/dweeter.css'%}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/auto-complete.css'%}">
+	<script type="text/javascript" src="{% static 'js/jquery.min.js'%}"></script>
+</head>
+<body>
+	{%include 'header_bar.html'%}
+	<div class="container" id="viewport">
+	{%block content%}
+
+	{%endblock%}
+	</div>
+	<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script type="text/javascript" src="{% static 'js/dweeter.js'%}"></script>
+	<script type="text/javascript" src="{% static 'js/materialize.min.js'%}"></script>
+	<script type="text/javascript" src="{%static 'js/auto-complete.js'%}"></script>
+</body>
+</html>

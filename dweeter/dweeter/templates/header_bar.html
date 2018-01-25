@@ -1,0 +1,31 @@
+<nav class="header-bar row white">
+	<div class="col l3 m3 hide-on-small-only center  logo">
+		<a href="/" class=" black-text"><b>Dweeter <i class="fa fa-twitter"></i></b></a>
+	</div>
+	<div class="col l4 m4 hide-on-small-only">
+		<input type="text" name="search" class="black-text" placeholder="search">
+	</div>
+	<div class="col 4 m4">
+		<div class="row">
+			<div class="col l5 m5"> &nbsp;
+				<button class="hide btn btn-flat blue white-text">Dweet <i class="fa fa-twitter"></i></button>
+			</div>
+			<div class="col l6 m6">
+				{%if request.user.id%}
+					<ul>
+						<li>
+							<a href="{%url 'view_profile' username=request.user.username%}" class="black-text" >
+								{{request.user.get_full_name}}
+							</a>
+						</li>
+						<li>
+							<a href="{%url 'logout'%}" class="black-text" >Logout</a>
+						</li>
+					</ul>
+				{%else%}
+				<a class="black-text" href="{%url 'login'%}">Login</a>
+				{%endif%}
+			</div>
+		</div>
+	</div>
+</nav>

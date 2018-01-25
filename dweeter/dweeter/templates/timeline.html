@@ -1,0 +1,81 @@
+{%extends 'base.html'%}
+{%block title%}Dweeter Timeline{%endblock%}
+{%block content%}
+	<div class="row">
+		<div class="col l8 m8 s12 main">
+			<div class="card dweet-block text-block">
+				<div class="card-content">
+					<div>
+						<textarea class="materialize-textarea" id="dweet-textarea" name="dweet"  placeholder="Write your text "></textarea>
+						<label for="dweet-textarea"></label>
+					</div>
+					
+					{%csrf_token%}
+					<button id="dweet_btn" class="btn blue white-text">Dweet <i class="fa fa-twitter"></i></button>
+				</div>
+			</div>
+			<div class="feed-list row"></div>
+		</div>		
+		<div class="col l4 m4 s12" id="people_list"></div>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('#dweet_btn').on('click',function(){
+				text = $('#dweet-textarea').val();
+				if(!text.trim().length){return;}
+				$.ajax({
+					'url':"{%url 'add_new_dweet'%}",
+					method:'POST',
+					data:{dweet_text:text,csrfmiddlewaretoken:getCookie('csrftoken').split('=').pop()},
+					success:function(a,b){
+						Materialize.toast('Dweet Added Successfully !', 1500);
+						$('#dweet-textarea').val('');
+					},
+					error:function(){
+						Materialize.toast('Dweet can not be added', 1500);
+					},
+					complete:function(){}
+				})
+			})
+
+			$.get('{%url "dweet_list"%}').success(function(a,b){
+				html=make_dweet_list(a);
+
+				$('.feed-list').append(html);
+				init_control_btn();
+			}).error(function(a,b){});
+
+			$.get('{%url "people_list"%}').success(function(a,b){
+
+				html="<div><h5>People</h5></div><div class='divider'></div>";
+				$.each(a,function(i,v){					
+					html+= people_tempate.format(v.first_name+" "+v.last_name, v.username, v.id);
+				})
+				$('#people_list').html(html);
+
+
+				$('.follow-btn').on('click',function(e){
+					followee = $(this).data('followee');
+					self=this;
+					$.ajax({
+						url:'/follow',
+						method:'post',
+						data:{followee:followee,csrfmiddlewaretoken:getCookie('csrftoken').split('=').pop()},
+						success:function(a,b){
+							$(self).removeClass('follow-btn').html('Following');
+						},
+						error:function(){
+
+						}
+					})
+				})
+
+
+			}).error(function(a,b){
+
+			})
+
+		})
+		
+	</script>
+{%endblock%}
