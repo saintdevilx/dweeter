@@ -26,7 +26,7 @@ class DweetManager:
 		#update following count user following
 		self.update_following(follower)
 
-		from models import Dweet, TimelineDweet
+		from .models import Dweet, TimelineDweet
 
 		dweets = Dweet.objects.filter(user = followee)
 		# Add all the dweets of followee to follower timeline
