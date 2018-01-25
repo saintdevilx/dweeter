@@ -4,7 +4,7 @@ class DweetManager:
 		pass
 
 	def add_dweet_to_follower(self, dweet):
-		from models import TimelineDweet
+		from .models import TimelineDweet
 		followers = self.get_users_follower(dweet.user)
 
 		timeline =[ TimelineDweet(dweet=dweet, user = follower.follower)  for follower in followers]
