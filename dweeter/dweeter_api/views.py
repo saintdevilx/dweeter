@@ -20,13 +20,13 @@ def login(request):
         username = request.data.get("username")
         password = request.data.get("password")
 
-        user = authenticate(username=username, password=password)
-        auth_login(request,user)
+        user = authenticate(username=username, password=password)        
         if not user:
             return Response({"error": "Login failed"}, status=status.HTTP_401_UNAUTHORIZED)
+        else:
+            auth_login(request,user)
 
-        token, _ = Token.objects.get_or_create(user=user)
-        return Response({"token": token.key})
+        return Response({"success":True})
     else:
         return redirect('/',request)
 
